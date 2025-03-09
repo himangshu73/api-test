@@ -16,7 +16,7 @@ const Home = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getLatestMovies() {
@@ -105,28 +105,28 @@ const Home = () => {
           <h2 className="text-center w-full">No movies found.</h2>
         )}
       </div>
-
-      <div className="flex justify-center gap-4 mt-6">
-        <Button
-          variant="outline"
-          onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
-          disabled={pageNumber === 1}
-        >
-          Previous
-        </Button>
-        <span className="font-medium text-lg">
-          Page {pageNumber} of {totalPages}
-        </span>
-        <Button
-          variant="outline"
-          onClick={() =>
-            setPageNumber((prev) => (prev < totalPages ? prev + 1 : prev))
-          }
-          disabled={pageNumber >= totalPages}
-        >
-          Next
-        </Button>
-      </div>
+      {!loading && (
+        <div className="flex justify-center gap-4 mt-10">
+          <Button
+            onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}
+            disabled={pageNumber === 1}
+          >
+            Previous
+          </Button>
+          <span className="font-medium text-lg">
+            Page {pageNumber} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            onClick={() =>
+              setPageNumber((prev) => (prev < totalPages ? prev + 1 : prev))
+            }
+            disabled={pageNumber >= totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
